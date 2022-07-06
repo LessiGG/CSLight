@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace CSLight
 {
@@ -8,14 +8,15 @@ namespace CSLight
         {
             int peopleInQueue;
             int waitTime = 10;
+            int hour = 60;
 
             Console.Write("Введите количество людей в очереди: ");
             peopleInQueue = Convert.ToInt32(Console.ReadLine());
 
-            int hours = peopleInQueue * waitTime / 60;
-            int minutes = peopleInQueue * waitTime % 60;
+            int hoursToWait = peopleInQueue * waitTime / hour;
+            int minutesToWait = peopleInQueue * waitTime % hour;
             
-            Console.WriteLine($"Вы должны отстоять в очереди {hours} часов и {minutes} минут");
+            Console.WriteLine($"Вы должны отстоять в очереди {hoursToWait} часов и {minutesToWait} минут");
         }
     }
 }
