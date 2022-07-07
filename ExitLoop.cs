@@ -8,15 +8,15 @@ namespace CSLight
         {
             string exitWord = "exit";
             string userInput;
-            bool exitConditionMet = false;
+            bool isExitConditionMet = false;
             
-            while (!exitConditionMet)
+            while (isExitConditionMet == false)
             {
                 Console.Write("Если хотите выйти из программы введите exit: ");
                 userInput = Console.ReadLine();
                 
                 if (userInput == exitWord)
-                    exitConditionMet = true;
+                    isExitConditionMet = true;
             }
         }
     }
