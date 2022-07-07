@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace CSLight
 {
@@ -6,7 +6,7 @@ namespace CSLight
     {
         static void Main(string[] args)
         {
-            bool exitConditionMet = false;
+            bool isExitConditionMet = false;
             
             float rubles = 500;
             float dollars = 15;
@@ -22,7 +22,7 @@ namespace CSLight
             string userInput;
             float currencyCount;
 
-            while (!exitConditionMet)
+            while (isExitConditionMet == false)
             {
                 Console.WriteLine($"Ваш баланс: {rubles} рублей, {dollars} долларов и {euros} евро.");
                 Console.WriteLine("Чтобы перевести рубли в доллары нажмите 1");
@@ -98,12 +98,13 @@ namespace CSLight
                         }
                         break;
                     case "exit":
-                        exitConditionMet = true;
+                        isExitConditionMet = true;
                         break;
                     default:
                         Console.WriteLine("Нераспознанная операция.");
                         break;
                 }
+                
             }
         }
     }
