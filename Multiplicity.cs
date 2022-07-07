@@ -16,7 +16,7 @@ namespace CSLight
                     numbersSum += i;
             }
 
-            Console.WriteLine($"Сумма всех чисел кратных 3 и 5 в диапазоне до {randomNumber} включительно: {numbersSum}");
+            Console.WriteLine($"Сумма всех чисел кратных 3 и 5 в диапазоне до {number} включительно: {numbersSum}");
         }
     }
 }
