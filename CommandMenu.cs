@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace CSLight
 {
@@ -9,8 +9,8 @@ namespace CSLight
             string userInput;
             bool isExitConditionMet = false;
 
+            string consoleColor;
             string userName = "";
-            string consoleColor = "";
             string password = "";
 
             while (!isExitConditionMet)
@@ -33,6 +33,7 @@ namespace CSLight
                     case "ChangeConsoleColor":
                         Console.WriteLine("Введите желаемый цвет (на английском)");
                         consoleColor = Console.ReadLine();
+                        
                         switch (consoleColor)
                         {
                             case "red":
@@ -51,12 +52,14 @@ namespace CSLight
                                 Console.WriteLine("Я не знаю такой цвет.");
                                 break;
                         }
+                        
                         break;
                     case "SetPassword":
                         Console.Write("Введите пароль: ");
                         password = Console.ReadLine();
                         break;
                     case "WriteName":
+                        
                         if (userName == "")
                             Console.WriteLine("Сначала задайте имя!");
                         else if (password == "")
@@ -71,6 +74,7 @@ namespace CSLight
                             Console.WriteLine(userName);
                         else
                             Console.WriteLine("Пароль неправильный!");
+                        
                         break;
                     case "Esc":
                         isExitConditionMet = true;
