@@ -11,17 +11,17 @@ namespace CSLight
             int maxValue = 100;
             int number = random.Next(minValue, maxValue);
             
-            int multiplicityBy3 = 3;
-            int multiplicityBy5 = 5;
+            int firstDivider = 3;
+            int secondDivider = 5;
             int numbersSum = 0;
 
             for (int i = number; i > 0; i--)
             {
-                if (i % multiplicityBy3 == 0 || i % multiplicityBy5 == 0)
+                if (i % firstDivider == 0 || i % secondDivider == 0)
                     numbersSum += i;
             }
 
-            Console.WriteLine($"Сумма всех чисел кратных {multiplicityBy3} и {multiplicityBy5} в диапазоне до {number} включительно: {numbersSum}");
+            Console.WriteLine($"Сумма всех чисел кратных {firstDivider} и {secondDivider} в диапазоне до {number} включительно: {numbersSum}");
         }
     }
 }
