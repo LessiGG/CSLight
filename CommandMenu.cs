@@ -13,7 +13,7 @@ namespace CSLight
             string userName = "";
             string password = "";
 
-            while (!isExitConditionMet)
+            while (isExitConditionMet == false)
             {
                 Console.WriteLine("Введите команду из списка:");
                 Console.WriteLine("SetName – установить имя");
@@ -61,9 +61,13 @@ namespace CSLight
                     case "WriteName":
                         
                         if (userName == "")
+                        {
                             Console.WriteLine("Сначала задайте имя!");
+                        }
                         else if (password == "")
+                        {
                             Console.WriteLine("Сначала задайте пароль!");
+                        }
                         else
                         {
                             Console.Write("Для вывода имени введите пароль: ");
@@ -71,9 +75,13 @@ namespace CSLight
                         }
 
                         if (userInput == password)
+                        {
                             Console.WriteLine(userName);
+                        }
                         else
+                        {
                             Console.WriteLine("Пароль неправильный!");
+                        }
                         
                         break;
                     case "Esc":
