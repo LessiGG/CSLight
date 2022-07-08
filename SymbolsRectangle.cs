@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace CSLight
 {
@@ -8,6 +8,7 @@ namespace CSLight
         {
             char rectangleSymbol;
             string userName;
+            string symbolsString = "";
             int cornerSymbols = 2;
 
             Console.Write("Введите ваше имя: ");
@@ -18,15 +19,12 @@ namespace CSLight
 
             for (int i = 0; i < userName.Length + cornerSymbols; i++)
             {
-                Console.Write(rectangleSymbol);
+                symbolsString += rectangleSymbol;
             }
 
-            Console.WriteLine($"\n{rectangleSymbol}{userName}{rectangleSymbol}");
-            
-            for (int i = 0; i < userName.Length + 2; i++)
-            {
-                Console.Write(rectangleSymbol);
-            }
+            Console.WriteLine(symbolsString + "\n" +
+                              rectangleSymbol + userName + rectangleSymbol +
+                              "\n" + symbolsString);
         }
     }
 }
