@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace CSLight
 {
@@ -10,7 +10,8 @@ namespace CSLight
             int bossDamage = 50;
 
             int playerHealth = 300;
-            int playermaxHelth = 300;
+            int playerMaxHelth = 300;
+            int playerHalfHealth = playerMaxHelth / 2;
 
             int desperateBlowDamage = 200;
             int bloodBatDamage = 300;
@@ -41,7 +42,7 @@ namespace CSLight
                 {
                     case 1:
                         
-                        if (playerHealth <= 200)
+                        if (playerHealth <= bloodBatCost)
                         {
                             Console.WriteLine("Невозможно применить заклинание, так как оно вас убьет.");
                         }
@@ -55,7 +56,7 @@ namespace CSLight
                         break;
                     case 2:
                         
-                        if (playerHealth > playermaxHelth / 2)
+                        if (playerHealth > playerHalfHealth)
                         {
                             Console.WriteLine("У вас слишком много здоровья для этой атаки!");
                         }
