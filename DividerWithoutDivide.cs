@@ -19,6 +19,7 @@ namespace CSLight
             for (int i = bottomBorder; i < topBorder; i++)
             {
                 int divider = i;
+                
                 while (divider > 0)
                 {
                     divider -= N;
