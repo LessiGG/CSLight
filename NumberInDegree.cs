@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace CSLight
 {
@@ -13,17 +13,17 @@ namespace CSLight
             
             int numberToDegree = 2;
             int degreeCount = 0;
-            int twoInDegreeOfNumber = 0;
+            int twoInDegree = 0;
 
             for (int i = numberToDegree; i <= number * numberToDegree; i*= numberToDegree)
             {
                 degreeCount++;
-                twoInDegreeOfNumber = i;
+                twoInDegree = i;
             }
             
             Console.WriteLine(number);
             Console.WriteLine(degreeCount);
-            Console.WriteLine(twoInDegreeOfNumber);
+            Console.WriteLine(twoInDegree);
         }
     }
 }
