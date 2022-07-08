@@ -19,14 +19,13 @@ namespace CSLight
             int divineRestoreHealth = 250;
 
             int divineUsages = 1;
-            
+            int poisonShotPercent = 10;
             bool isSpellChosen = false;
 
             int userInput;
 
             while (bossHealth > 0 && playerHealth > 0)
             {
-                int poisonShotPercent = 10;
                 int poisonShotDamage = bossHealth / 100 * poisonShotPercent;
                 
                 Console.WriteLine($"Здоровье босса {bossHealth}");
