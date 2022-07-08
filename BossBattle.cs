@@ -18,23 +18,25 @@ namespace CSLight
             int bloodBatCost = 100;
             int divineRestoreHealth = 250;
 
-            bool isDivineUsed = false;
+            int divineUsages = 1;
+            
             bool isSpellChosen = false;
 
             int userInput;
 
             while (bossHealth > 0 && playerHealth > 0)
             {
-                int poisonShot = bossHealth / 100 * 10;
+                int poisonShotPercent = 10;
+                int poisonShotDamage = bossHealth / 100 * poisonShotPercent;
                 
                 Console.WriteLine($"Здоровье босса {bossHealth}");
                 Console.WriteLine($"Здоровье игрока {playerHealth}");
                 
                 Console.WriteLine("Выберите заклинание!");
-                Console.WriteLine("1. Призыв кровавого нетопыря (урон - 300, стоимость 100 очков здоровья)");
-                Console.WriteLine("2. Отчаянный удар (урон - 200, условие: меньше 50% здоровья)");
-                Console.WriteLine("3. Длань восстановления (восстановление 250, условие: 1 раз за битву)");
-                Console.WriteLine("4. Ядовитый плевок (урон - 10% от текущего хп босса)");
+                Console.WriteLine($"1. Призыв кровавого нетопыря (урон - {bloodBatDamage}, стоимость {bloodBatCost} очков здоровья)");
+                Console.WriteLine($"2. Отчаянный удар (урон - {desperateBlowDamage}, условие: меньше {playerHalfHealth} здоровья)");
+                Console.WriteLine($"3. Длань восстановления (восстановление {divineRestoreHealth}, условие: {divineUsages} раз за битву)");
+                Console.WriteLine($"4. Ядовитый плевок (урон - {poisonShotPercent}% от текущего хп босса)");
 
                 userInput = Convert.ToInt32(Console.ReadLine());
 
@@ -69,21 +71,21 @@ namespace CSLight
                         break;
                     case 3:
 
-                        if (isDivineUsed == true)
+                        if (divineUsages == 0)
                         {
-                            Console.WriteLine("Вы уже использовали длань в этом бою!");
+                            Console.WriteLine("У вас не осталось дланей на этот бой!");
                         }
                         else
                         {
                             isSpellChosen = true;
-                            isDivineUsed = true;
+                            divineUsages--;
                             playerHealth += divineRestoreHealth;
                         }
                         
                         break;
                     case 4:
                         isSpellChosen = true;
-                        bossHealth -= poisonShot;
+                        bossHealth -= poisonShotDamage;
                         break;
                     default:
                         Console.WriteLine("Я не знаю такого заклинания.");
