@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace CSLight
 {
@@ -7,25 +7,19 @@ namespace CSLight
         static void Main(string[] args)
         {
             Random random = new Random();
-
-            int minRandomValue = 1;
-            int maxRandomValue = 28;
-            int N = random.Next(minRandomValue, maxRandomValue);
+            
+            int minRandomNumber = 1;
+            int maxRandomNumber = 28;
+            int divider = random.Next(minRandomNumber, maxRandomNumber);
+            
+            int minNumber = 100;
+            int maxNumber = 1000;
+            
             int dividersCount = 0;
-
-            int bottomBorder = 100;
-            int topBorder = 1000;
-
-            for (int i = bottomBorder; i < topBorder; i++)
+ 
+            for (int i = 0; i < maxNumber; i += divider)
             {
-                int divider = i;
-                
-                while (divider > 0)
-                {
-                    divider -= N;
-                }
-
-                if (divider == 0)
+                if (i > minNumber)
                 {
                     dividersCount++;
                 }
