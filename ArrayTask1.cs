@@ -9,14 +9,14 @@ namespace CSLight
             int[,] array = new int[5, 5];
             Random random = new Random();
             int secondRowSum = 0;
-            int firstColumnSum = 0;
+            int firstColumnMult = 1;
 
             for (int i = 0; i < array.GetLength(0); i++)
             {
                 for (int j = 0; j < array.GetLength(1); j++)
                 {
-                    int minRandomNumber = 0;
-                    int maxRandomNumber = 10;
+                    int minRandomNumber = 1;
+                    int maxRandomNumber = 5;
                     array[i, j] = random.Next(minRandomNumber, maxRandomNumber);
                     Console.Write(array[i, j] + " ");
                 }
@@ -31,11 +31,11 @@ namespace CSLight
             
             for (int i = 0; i < array.GetLength(1); i++)
             {
-                firstColumnSum += array[i, 0];
+                firstColumnMult *= array[i, 0];
             }
 
             Console.WriteLine(secondRowSum);
-            Console.WriteLine(firstColumnSum);
+            Console.WriteLine(firstColumnMult);
         }
     }
 }
