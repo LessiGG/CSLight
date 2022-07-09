@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace CSLight
 {
@@ -16,22 +16,22 @@ namespace CSLight
                 for (int j = 0; j < array.GetLength(1); j++)
                 {
                     int minRandomNumber = 0;
-                    int maxRandomNumber = 100;
+                    int maxRandomNumber = 10;
                     array[i, j] = random.Next(minRandomNumber, maxRandomNumber);
                     Console.Write(array[i, j] + " ");
-                    
-                    if (i == 1) // Вторая строка
-                    {
-                        secondRowSum += array[i, j];
-                    }
-
-                    if (j == 0) // Первый столбик
-                    {
-                        firstColumnSum += array[i, j];
-                    }
                 }
                 
                 Console.WriteLine();
+            }
+
+            for (int i = 0; i < array.GetLength(0); i++)
+            {
+                secondRowSum += array[1, i];
+            }
+            
+            for (int i = 0; i < array.GetLength(1); i++)
+            {
+                firstColumnSum += array[i, 0];
             }
 
             Console.WriteLine(secondRowSum);
