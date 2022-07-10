@@ -6,30 +6,30 @@ namespace CSLight
     {
         static void Main(string[] args)
         {
-            int[] array = new int[1];
-            int arraySum = 0;
+            int[] array = new int[0];
+            bool isExit = false;
 
-            bool isExitConditionMet = false;
+            string sumCommand = "sum";
+            string exitCommand = "exit";
 
-            while (isExitConditionMet == false)
+            while (isExit == false)
             {
-                Console.WriteLine($"Введите число, exit или sum: ");
+                Console.WriteLine($"Введите число, {exitCommand} или {sumCommand}: ");
                 string userInput = Console.ReadLine();
 
-                if (userInput == "sum")
+                if (userInput == sumCommand)
                 {
+                    int arraySum = 0;
                     for (int i = 0; i < array.Length; i++)
                     {
                         arraySum += array[i];
                     }
 
                     Console.WriteLine($"Сумма массива - {arraySum}");
-                    arraySum = 0;
                 }
-
-                else if (userInput == "exit")
+                else if (userInput == exitCommand)
                 {
-                    isExitConditionMet = true;
+                    isExit = true;
                 }
                 else
                 {
@@ -42,7 +42,6 @@ namespace CSLight
                     }
                     
                     tempArray[tempArray.Length - 1] = arrayItem;
-
                     array = tempArray;
                 }
             }
