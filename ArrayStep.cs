@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace CSLight
 {
@@ -7,10 +7,12 @@ namespace CSLight
         static void Main(string[] args)
         {
             int[] array = {1, 2, 3, 4, 5, 12};
+            
+            int steps = Convert.ToInt32(Console.ReadLine());
 
-            for (int i = 0; i < array.Length - 1; i++)
+            for (int i = 0; i < array.Length - steps; i++)
             {
-                (array[i], array[i + 1]) = (array[i + 1], array[i]);
+                (array[i], array[i + steps]) = (array[i + steps], array[i]);
             }
 
             for (int i = 0; i < array.Length; i++)
