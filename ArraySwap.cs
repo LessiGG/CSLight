@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace CSLight
 {
@@ -6,12 +6,12 @@ namespace CSLight
     {
         static void Main(string[] args)
         {
-            int lengthArray = 0;
-            int[] array = new int[lengthArray];
-            int[] tempArray = new int[lengthArray];
+            int[] array = new int[1];
             int arraySum = 0;
 
-            while (true)
+            bool isExitConditionMet = false;
+
+            while (isExitConditionMet == false)
             {
                 Console.WriteLine($"Введите число, exit или sum: ");
                 string userInput = Console.ReadLine();
@@ -24,31 +24,27 @@ namespace CSLight
                     }
 
                     Console.WriteLine($"Сумма массива - {arraySum}");
-                    break;
+                    arraySum = 0;
                 }
 
-                if (userInput == "exit")
+                else if (userInput == "exit")
                 {
-                    break;
+                    isExitConditionMet = true;
                 }
-
-                int arrayItem = Convert.ToInt32(userInput);
-                lengthArray += 1;
-
-                for (int i = 0; i < tempArray.Length; i++)
+                else
                 {
-                    tempArray[i] = array[i];
+                    int[] tempArray = new int[array.Length + 1];
+                    int arrayItem = Convert.ToInt32(userInput);
+
+                    for (int i = 0; i < array.Length; i++)
+                    {
+                        tempArray[i] = array[i];
+                    }
+                    
+                    tempArray[tempArray.Length - 1] = arrayItem;
+
+                    array = tempArray;
                 }
-
-                array = new int[lengthArray];
-
-                for (int i = 0; i < tempArray.Length; i++)
-                {
-                    array[i] = tempArray[i];
-                }
-
-                array[lengthArray - 1] = arrayItem;
-                tempArray = array;
             }
         }
     }
