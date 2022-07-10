@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace CSLight
 {
@@ -6,34 +6,43 @@ namespace CSLight
     {
         static void Main(string[] args)
         {
-            Random random = new Random();
             int count = 1;
-            int highestCount = 1;
+            int highestCount = count;
+            int[] array = new int[30];
             
-            //int[] array = new int[30];
-            int[] array = new int[] {5, 5, 9, 9, 9, 5, 5};
+            Random random = new Random();
+            int minRandomNumber = 0;
+            int maxRandomNumber = 25;
 
             for (int i = 0; i < array.Length; i++)
             {
-                //array[i] = random.Next(0, 10);
-
+                array[i] = random.Next(minRandomNumber, maxRandomNumber);
                 Console.Write(array[i] + " ");
             }
 
             Console.WriteLine();
+            
+            int highestRepeatedNumber = array[0];
 
-            for (int i = 0; i < array.Length; i++)
+            for (int i = 1; i < array.Length; i++)
             {
-                if (array[i] == array[i + 1])
+                if (array[i-1] == array[i])
                 {
                     count++;
 
-                    if (count < highestCount)
+                    if (highestCount < count)
                     {
                         highestCount = count;
+                        highestRepeatedNumber = array[i - 1];
                     }
                 }
+                else
+                {
+                    count = 1;
+                }
             }
+
+            Console.WriteLine($"Самое часто повторяющееся число - {highestRepeatedNumber}, количество повторений - {highestCount}");
         }
     }
 }
