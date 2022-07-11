@@ -46,7 +46,8 @@ namespace CSLight
 
         static void AddEntry(ref string[] entrySurname, ref string[] entryOccupation)
         {
-            ResizeArray(ref entrySurname, ref entryOccupation, 1);
+            ResizeArray(ref entrySurname, 1);
+            ResizeArray(ref entryOccupation, 1);
 
             Console.Write("Введите фамилию имя отчество через пробел: ");
             entrySurname[entrySurname.Length - 1] = Console.ReadLine();
@@ -60,24 +61,21 @@ namespace CSLight
             ClearConsole();
         }
 
-        static void ResizeArray(ref string[] entrySurname, ref string[] entryOccupation, int resizeValue, int entryIndex = 1)
+        static void ResizeArray(ref string[] arrayToResize, int resizeValue, int entryIndex = 1)
         {
-            string[] tempSurname = new string[entrySurname.Length + resizeValue];
-            string[] tempOccupation = new string[entryOccupation.Length + resizeValue];
+            string[] tempArray = new string[arrayToResize.Length + resizeValue];
             
-            for (int i = 0; i < entrySurname.Length; i++)
+            for (int i = 0; i < arrayToResize.Length; i++)
             {
                 if (i == entryIndex - 1 && resizeValue < 0)
                 {
                     continue;
                 }
                 
-                tempSurname[i] = entrySurname[i];
-                tempOccupation[i] = entryOccupation[i];
+                tempArray[i] = arrayToResize[i];
             }
             
-            entrySurname = tempSurname;
-            entryOccupation = tempOccupation;
+            arrayToResize = tempArray;
         }
 
         static void ShowAllEntries(string[] entrySurname, string[] entryOccupation)
@@ -108,7 +106,8 @@ namespace CSLight
                     return;
                 }
                 
-                ResizeArray(ref entrySurname, ref entryOccupation, -1, entryIndex);
+                ResizeArray(ref entrySurname, -1, entryIndex);
+                ResizeArray(ref entryOccupation, -1, entryIndex);
                 
                 Console.WriteLine("Досье было удалено.");
             }
