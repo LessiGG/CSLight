@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace CSLight
 {
@@ -25,13 +25,13 @@ namespace CSLight
                         AddEntry(ref entrySurname, ref entryOccupation);
                         break;
                     case "2":
-                        ShowAllEntries(ref entrySurname, ref entryOccupation);
+                        ShowAllEntries(entrySurname, entryOccupation);
                         break;
                     case "3":
                         RemoveEntry(ref entrySurname, ref entryOccupation);
                         break;
                     case "4":
-                        SearchForEntry(ref entrySurname, ref entryOccupation);
+                        SearchForEntry(entrySurname, entryOccupation);
                         break;
                     case "5":
                         isExit = true;
@@ -46,17 +46,7 @@ namespace CSLight
 
         static void AddEntry(ref string[] entrySurname, ref string[] entryOccupation)
         {
-            string[] tempSurname = new string[entrySurname.Length + 1];
-            string[] tempOccupation = new string[entryOccupation.Length + 1];
-
-            for (int i = 0; i < entrySurname.Length; i++)
-            {
-                tempSurname[i] = entrySurname[i];
-                tempOccupation[i] = entryOccupation[i];
-            }
-
-            entrySurname = tempSurname;
-            entryOccupation = tempOccupation;
+            ResizeArray(ref entrySurname, ref entryOccupation, 1);
 
             Console.Write("Введите фамилию имя отчество через пробел: ");
             entrySurname[entrySurname.Length - 1] = Console.ReadLine();
@@ -70,13 +60,29 @@ namespace CSLight
             ClearConsole();
         }
 
-        static void ShowAllEntries(ref string[] entrySurname, ref string[] entryOccupation)
+        static void ResizeArray(ref string[] entrySurname, ref string[] entryOccupation, int resizeValue, int entryIndex = 1)
         {
-            if (entrySurname.Length == 0)
+            string[] tempSurname = new string[entrySurname.Length + resizeValue];
+            string[] tempOccupation = new string[entryOccupation.Length + resizeValue];
+            
+            for (int i = 0; i < entrySurname.Length; i++)
             {
-                Console.WriteLine("Список досье пуст.");
+                if (i == entryIndex - 1 && resizeValue < 0)
+                {
+                    continue;
+                }
+                
+                tempSurname[i] = entrySurname[i];
+                tempOccupation[i] = entryOccupation[i];
             }
-            else
+            
+            entrySurname = tempSurname;
+            entryOccupation = tempOccupation;
+        }
+
+        static void ShowAllEntries(string[] entrySurname, string[] entryOccupation)
+        {
+            if (AreEntriesEmpty(entrySurname) == false)
             {
                 Console.WriteLine("Просмотр Досье: ");
                 for (int i = 0; i < entrySurname.Length; i++)
@@ -84,20 +90,14 @@ namespace CSLight
                     Console.WriteLine($"{i+1}) {entrySurname[i]} - {entryOccupation[i]}");
                 }
             }
+            
             ClearConsole();
         }
 
         static void RemoveEntry(ref string[] entrySurname, ref string[] entryOccupation)
         {
-            if (entrySurname.Length == 0)
+            if (AreEntriesEmpty(entrySurname) == false)
             {
-                Console.WriteLine("Список досье пуст.");
-            }
-            else
-            {
-                string[] tempSurname = new string[entrySurname.Length - 1];
-                string[] tempOccupation = new string[entryOccupation.Length - 1];
-
                 Console.Write("Введите номер досье которое хотите удалить: ");
                 int entryIndex = Convert.ToInt32(Console.ReadLine());
                 
@@ -107,28 +107,16 @@ namespace CSLight
                     ClearConsole();
                     return;
                 }
-
-                for (int i = 0; i < tempSurname.Length; i++)
-                {
-                    if (i == entryIndex - 1)
-                    {
-                        continue;
-                    }
-                    
-                    tempSurname[i] = entrySurname[i];
-                    tempOccupation[i] = entryOccupation[i];
-                }
-
-                entrySurname = tempSurname;
-                entryOccupation = tempOccupation;
-
+                
+                ResizeArray(ref entrySurname, ref entryOccupation, -1, entryIndex);
+                
                 Console.WriteLine("Досье было удалено.");
             }
-            
+
             ClearConsole();
         }
 
-        static void SearchForEntry(ref string[] entrySurname, ref string[] entryOccupation)
+        static void SearchForEntry(string[] entrySurname, string[] entryOccupation)
         {
             Console.Write("Введите фамилию для поиска досье: ");
             string userInput = Console.ReadLine();
@@ -154,6 +142,17 @@ namespace CSLight
             Console.WriteLine("\nНажмите любую клавишу чтобы продолжить...");
             Console.ReadKey();
             Console.Clear();
+        }
+
+        static bool AreEntriesEmpty(string[] entrySurname)
+        {
+            if (entrySurname.Length == 0)
+            {
+                Console.WriteLine("Список досье пуст.");
+                return true;
+            }
+            
+            return false;
         }
     }
 } 
