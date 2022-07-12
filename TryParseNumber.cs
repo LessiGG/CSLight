@@ -6,8 +6,8 @@ namespace CSLight
     {
         static void Main(string[] args)
         {
-            int result = TryGetNumber();
-            Console.WriteLine(result);
+            int number = TryGetNumber();
+            Console.WriteLine(number);
         }
 
         static int TryGetNumber()
