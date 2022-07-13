@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace CSLight
@@ -16,13 +16,13 @@ namespace CSLight
 
             foreach (var translation in translations)
             {
-                if (userInput != translation.Key)
+                if (translations.ContainsKey(userInput))
                 {
-                    Console.WriteLine("На это слово нет перевода.");
+                    Console.WriteLine(translation.Value);
                 }
                 else
                 {
-                    Console.WriteLine(translation.Value);
+                    Console.WriteLine("На это слово нет перевода.");
                 }
             }
         }
