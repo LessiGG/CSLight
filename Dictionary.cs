@@ -13,17 +13,14 @@ namespace CSLight
 
             Console.Write("Введите слово чтобы получить его перевод: ");
             string userInput = Console.ReadLine();
-
-            foreach (var translation in translations)
+            
+            if (translations.ContainsKey(userInput))
             {
-                if (translations.ContainsKey(userInput))
-                {
-                    Console.WriteLine(translation.Value);
-                }
-                else
-                {
-                    Console.WriteLine("На это слово нет перевода.");
-                }
+                Console.WriteLine(translations[userInput]);
+            }
+            else
+            {
+                Console.WriteLine("На это слово нет перевода.");
             }
         }
     }
