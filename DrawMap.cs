@@ -7,30 +7,43 @@ namespace CSLight
     {
         static void Main(string[] args)
         {
-            int playerPositionX, playerPositionY;
-            int playerDirectionX = 0, playerDirectionY = 1;
+            int playerPositionX;
+            int playerPositionY;
+            int playerDirectionX = 0;
+            int playerDirectionY = 1;
+            
             char symbolPlayer = '@';
-            char[,] map;
+            string defaultMap = "DefaultMap.txt";
             bool isPlaying = true;
+            
             ConsoleKeyInfo inputKey;
             
             Console.WriteLine("[1] создать карту [2] загрузить карту");
             string userInput = Console.ReadLine();
+            char[,] map = ReadMap(defaultMap, symbolPlayer, out playerPositionX, out playerPositionY);
 
             switch (userInput)
             {
                 case "1":
                     Console.Clear();
-                    CreateMap();
+                    string fileName = CreateMap();
+                    map = ReadMap(fileName, symbolPlayer, out playerPositionX, out playerPositionY);
                     break;
                 case "2":
+                    Console.Write("\nВведи название карты для загрузки: ");
+                    Console.Write("\nНажмите Enter чтобы выбрать дефолтную карту(): ");
+                    string filename = Console.ReadLine();
+                    
+                    if (filename == string.Empty)
+                    {
+                        map = ReadMap(defaultMap, symbolPlayer, out playerPositionX, out playerPositionY);
+                        break;
+                    }
+                    
+                    Console.Clear();
+                    map = ReadMap(filename, symbolPlayer, out playerPositionX, out playerPositionY);
                     break;
             }
-
-            Console.Write("\nВведи название карты для загрузки: ");
-            string filename = Console.ReadLine();
-            Console.Clear();
-            map = ReadMap(filename, symbolPlayer, out playerPositionX, out playerPositionY);
             
             DrawMap(map);
             Console.CursorVisible = false;
@@ -65,7 +78,7 @@ namespace CSLight
             playerPositionX = 0;
             playerPositionY = 0;
             
-            string[] newFile = File.ReadAllLines($"{mapName}.txt");
+            string[] newFile = File.ReadAllLines($"{mapName}");
             char[,] map = new char[newFile.Length, newFile[0].Length];
 
             for (int i = 0; i < map.GetLength(0); i++)
@@ -85,7 +98,7 @@ namespace CSLight
             return map;
         }
         
-        static void CreateMap()
+        static string CreateMap()
         {
             Console.Clear();
             Console.Write("Введите количество строк: ");
@@ -109,12 +122,15 @@ namespace CSLight
                     key = Console.ReadKey();
                     toFile.Write(key.KeyChar);
                 }
+                
                 toFile.WriteLine();
                 Console.WriteLine();
             }
             
             toFile.Close();
             Console.Clear();
+
+            return fileName;
         }
 
         static void DrawMap(char[,] map)
@@ -148,16 +164,20 @@ namespace CSLight
             switch (key.Key)
             {
                 case ConsoleKey.UpArrow:
-                    playerDirectionX = -1; playerDirectionY = 0;
+                    playerDirectionX = -1;
+                    playerDirectionY = 0;
                     break;
                 case ConsoleKey.DownArrow:
-                    playerDirectionX = 1; playerDirectionY = 0;
+                    playerDirectionX = 1;
+                    playerDirectionY = 0;
                     break;
                 case ConsoleKey.LeftArrow:
-                    playerDirectionX = 0; playerDirectionY = -1;
+                    playerDirectionX = 0;
+                    playerDirectionY = -1;
                     break;
                 case ConsoleKey.RightArrow:
-                    playerDirectionX = 0; playerDirectionY = 1;
+                    playerDirectionX = 0;
+                    playerDirectionY = 1;
                     break;
             }
         }
