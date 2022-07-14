@@ -25,23 +25,10 @@ namespace CSLight
             switch (userInput)
             {
                 case "1":
-                    Console.Clear();
-                    string fileName = CreateMap();
-                    map = ReadMap(fileName, symbolPlayer, out playerPositionX, out playerPositionY);
+                    map = ReadMap(CreateMap(), symbolPlayer, out playerPositionX, out playerPositionY);
                     break;
                 case "2":
-                    Console.Write("\nВведи название карты для загрузки: ");
-                    Console.Write("\nНажмите Enter чтобы выбрать дефолтную карту(): ");
-                    string filename = Console.ReadLine();
-                    
-                    if (filename == string.Empty)
-                    {
-                        map = ReadMap(defaultMap, symbolPlayer, out playerPositionX, out playerPositionY);
-                        break;
-                    }
-                    
-                    Console.Clear();
-                    map = ReadMap(filename, symbolPlayer, out playerPositionX, out playerPositionY);
+                    LoadMap(ref map, defaultMap, symbolPlayer, out playerPositionX, out playerPositionY);
                     break;
             }
             
@@ -71,6 +58,22 @@ namespace CSLight
 
                 System.Threading.Thread.Sleep(100);
             }
+        }
+
+        static void LoadMap(ref char[,] map, string defaultMap, char symbolPlayer, out int playerPositionX, out int playerPositionY)
+        {
+            Console.Write("\nВведи название карты для загрузки: ");
+            Console.Write("\nНажмите Enter чтобы выбрать дефолтную карту(): ");
+            string filename = Console.ReadLine() + ".txt";
+                    
+            if (filename == string.Empty)
+            {
+                map = ReadMap(defaultMap, symbolPlayer, out playerPositionX, out playerPositionY);
+                return;
+            }
+                    
+            Console.Clear();
+            map = ReadMap(filename, symbolPlayer, out playerPositionX, out playerPositionY);
         }
 
         static char[,] ReadMap(string mapName, char symbolPlayer, out int playerPositionX, out int playerPositionY)
