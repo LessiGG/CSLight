@@ -1,161 +1,165 @@
-﻿using System;
+using System;
 using System.IO;
 
 namespace CSLight
 {
-    public class DrawMap
+    class Program
     {
-        static char[,] map;
-        static int[] mapInfo; // 0 - xmax, 1 - ymax,  
-        static int[] currentPos;
         static void Main(string[] args)
         {
-            currentPos = new int[2] { 0, 0 };
-            Console.WriteLine("(0 - create map | 1 - load map)");
-            var k = Console.ReadKey();
-            if (k.Key == ConsoleKey.D0)
+            int playerPositionX, playerPositionY;
+            int playerDirectionX = 0, playerDirectionY = 1;
+            char symbolPlayer = '@';
+            char[,] map;
+            bool isPlaying = true;
+            ConsoleKeyInfo inputKey;
+            
+            Console.WriteLine("[1] создать карту [2] загрузить карту");
+            string userInput = Console.ReadLine();
+
+            switch (userInput)
             {
-                Console.Clear();
-                Console.WriteLine("0 - create random | 1 - self create");
-                k = Console.ReadKey();
-                if (k.Key == ConsoleKey.D0)
-                {
- 
-                }
-                else if (k.Key == ConsoleKey.D1)
-                {
-                    SelfCreateMap();
-                }
+                case "1":
+                    Console.Clear();
+                    CreateMap();
+                    break;
+                case "2":
+                    break;
             }
-            if (k.Key == ConsoleKey.D1)
+
+            Console.Write("\nВведи название карты для загрузки: ");
+            string filename = Console.ReadLine();
+            Console.Clear();
+            map = ReadMap(filename, symbolPlayer, out playerPositionX, out playerPositionY);
+            
+            DrawMap(map);
+            Console.CursorVisible = false;
+
+            while (isPlaying)
             {
-                playGame();
-            }
-        }
- 
-        static void WriteMap(int[] currentPos)
-        {
-            for (int i = 0; i < mapInfo[1]; i++)
-            {
-                for (int i2 = 0; i2 < mapInfo[0]; i2++)
+                if (Console.KeyAvailable)
                 {
-                    if(i == currentPos[0] && i2 == currentPos[1]) Console.Write('O'); 
-                    else Console.Write(map[i, i2]);
-                }
-                Console.WriteLine();
-            }
-        }
- 
-        static char[,] ReadMap(string fileName)
-        {
-            string[] map = File.ReadAllLines(fileName);
-            mapInfo = new int[2] { map[0].Length, map.Length };
-            char[,] cMap = new char[mapInfo[1], mapInfo[0]];
-            for (int i = 0; i < mapInfo[1]; i++)
-            {
-                for (int j = 0; j< mapInfo[0]; j++)
-                {
-                    if (map[i][j] == 'S')
+                    inputKey = Console.ReadKey(true);
+
+                    if (inputKey.Key == ConsoleKey.Escape)
                     {
-                        currentPos[0] = i;
-                        currentPos[1] = j;
-                        cMap[i, j] = ' ';
+                        isPlaying = false;
                     }
                     else
                     {
-                        cMap[i, j] = map[i][j];
+                        ChangeDirection(inputKey, ref playerDirectionX, ref playerDirectionY);
+                    }
+
+                }
+                else if (map[playerPositionX + playerDirectionX, playerPositionY + playerDirectionY] != '#')
+                {
+                    Move(map, '@', ref playerPositionX, ref playerPositionY, playerDirectionX, playerDirectionY);
+                }
+
+                System.Threading.Thread.Sleep(100);
+            }
+        }
+
+        static char[,] ReadMap(string mapName, char symbolPlayer, out int playerPositionX, out int playerPositionY)
+        {
+            playerPositionX = 0;
+            playerPositionY = 0;
+            
+            string[] newFile = File.ReadAllLines($"{mapName}.txt");
+            char[,] map = new char[newFile.Length, newFile[0].Length];
+
+            for (int i = 0; i < map.GetLength(0); i++)
+            {
+                for (int j = 0; j < map.GetLength(1); j++)
+                {
+                    map[i, j] = newFile[i][j];
+
+                    if (map[i, j] == symbolPlayer)
+                    {
+                        playerPositionX = i;
+                        playerPositionY = j;
                     }
                 }
             }
-            return cMap;
- 
- 
+
+            return map;
         }
-        static void SelfCreateMap()
+        
+        static void CreateMap()
         {
             Console.Clear();
             Console.Write("Введите количество строк: ");
-            int rows = Int32.Parse(Console.ReadLine());
+            int rows = Convert.ToInt32(Console.ReadLine());
             
             Console.Write("\nВведите количество столбцов: ");
-            int columns = Int32.Parse(Console.ReadLine());
+            int columns = Convert.ToInt32(Console.ReadLine());
             
-            Console.WriteLine("\nВведите название карты: ");
-            string fileName = Console.ReadLine();
+            Console.Write("\nВведите название карты: ");
+            string fileName = Console.ReadLine() + ".txt";
             StreamWriter toFile = new StreamWriter(fileName);
-            bool oneSpawn = false;
             Console.Clear();
+
+            Console.WriteLine("Рисуйте карту:");
+            
             for (int i = 0; i < columns; i++)
             {
-                for (int i2 = 0; i2 < rows; i2++)
+                for (int j = 0; j < rows; j++)
                 {
- 
                     ConsoleKeyInfo key;
                     key = Console.ReadKey();
-                    if (key.Key == ConsoleKey.S && !oneSpawn)
-                    {
-                        toFile.Write(key.KeyChar);
-                        oneSpawn = true;
-                    } 
-                    if (key.Key == ConsoleKey.D0 || key.Key == ConsoleKey.D1)
-                        toFile.Write(key.KeyChar);
+                    toFile.Write(key.KeyChar);
                 }
                 toFile.WriteLine();
                 Console.WriteLine();
             }
+            
             toFile.Close();
             Console.Clear();
-            playGame();
         }
- 
-        static void playGame()
+
+        static void DrawMap(char[,] map)
         {
-            Console.Write("\nВведи название карты для загрузки: ");
-            string filename = Console.ReadLine();
-            map = ReadMap(filename);
-            Console.Clear();
-            WriteMap(currentPos);
-            ConsoleKeyInfo key;
-            do
+            for (int i = 0; i < map.GetLength(0); i++)
             {
-                key = Console.ReadKey();
- 
-                if (key.Key == ConsoleKey.UpArrow)
+                for (int j = 0; j < map.GetLength(1); j++)
                 {
-                    if (map[currentPos[0] - 1, currentPos[1]] == ' ')
-                    {
-                        currentPos[0] -= 1;
- 
-                    }
+                    Console.Write(map[i, j]);
                 }
-                else if (key.Key == ConsoleKey.DownArrow)
-                {
-                    if (map[currentPos[0] + 1, currentPos[1]] == ' ')
-                    {
-                        currentPos[0] += 1;
- 
-                    }
-                }
-                else if (key.Key == ConsoleKey.LeftArrow)
-                {
-                    if (map[currentPos[0], currentPos[1] - 1] == ' ')
-                    {
-                        currentPos[1] -= 1;
- 
-                    }
-                }
-                else if (key.Key == ConsoleKey.RightArrow)
-                {
-                    if (map[currentPos[0], currentPos[1] + 1] == ' ')
-                    {
-                        currentPos[1] += 1;
- 
-                    }
-                }
-                Console.Clear();
-                WriteMap(currentPos);
+
+                Console.WriteLine();
             }
-            while (key.Key != ConsoleKey.Escape);
+        }
+
+        static void Move(char[,] map, char symbolPlayer, ref int playerPositionX, ref int playerPositionY, int playerDirectionX, int playerDirectionY)
+        {
+            Console.SetCursorPosition(playerPositionY, playerPositionX);
+            map[playerPositionX, playerPositionY] = ' ';
+            Console.Write(map[playerPositionX, playerPositionY]);
+            
+            playerPositionX += playerDirectionX;
+            playerPositionY += playerDirectionY;
+            
+            Console.SetCursorPosition(playerPositionY, playerPositionX);
+            Console.Write(symbolPlayer);
+        }
+
+        static void ChangeDirection(ConsoleKeyInfo key, ref int playerDirectionX, ref int playerDirectionY)
+        {
+            switch (key.Key)
+            {
+                case ConsoleKey.UpArrow:
+                    playerDirectionX = -1; playerDirectionY = 0;
+                    break;
+                case ConsoleKey.DownArrow:
+                    playerDirectionX = 1; playerDirectionY = 0;
+                    break;
+                case ConsoleKey.LeftArrow:
+                    playerDirectionX = 0; playerDirectionY = -1;
+                    break;
+                case ConsoleKey.RightArrow:
+                    playerDirectionX = 0; playerDirectionY = 1;
+                    break;
+            }
         }
     }
 }
