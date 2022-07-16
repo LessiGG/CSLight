@@ -79,11 +79,11 @@ namespace CSLight
         {
             Console.Write("Введите номер досье которое хотите удалить: ");
             bool gotNumber = int.TryParse(Console.ReadLine(), out int entryIndex);
+            
+            int index = 1;
 
             if (gotNumber == true)
             {
-                int index = 1;
-            
                 foreach (var entry in entries)
                 {
                     if (entryIndex == index)
