@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace CSLight
@@ -25,14 +25,7 @@ namespace CSLight
                 }
                 else if (userInput == sumCommand)
                 {
-                    int numbersSum = 0;
-                    
-                    foreach (var number in numbers)
-                    {
-                        numbersSum += number;
-                    }
-
-                    Console.WriteLine($"Сумма введенных чисел - {numbersSum}");
+                    CalculateSum(numbers);
                 }
                 else if (userInput == exitCommand)
                 {
@@ -43,6 +36,18 @@ namespace CSLight
                     Console.WriteLine("Было введено не число.");
                 }
             }
+        }
+
+        static void CalculateSum(List<int> numbers)
+        {
+            int numbersSum = 0;
+                    
+            foreach (var number in numbers)
+            {
+                numbersSum += number;
+            }
+
+            Console.WriteLine($"Сумма введенных чисел - {numbersSum}");
         }
     }
 }
