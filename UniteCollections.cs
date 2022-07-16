@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace CSLight
@@ -19,21 +19,21 @@ namespace CSLight
 
         static void FillList(List<string> list, string[] array)
         {
-            foreach (var item in array)
+            foreach (var arrayItem in array)
             {
-                if (list.Contains(item) == false)
+                if (list.Contains(arrayItem) == false)
                 {
-                    list.Add(item);
+                    list.Add(arrayItem);
                 }
             }
         }
 
         static void PrintList(List<string> list)
         {
-            foreach (var item in list)
+            foreach (var listItem in list)
             {
-                Console.Write(item + " ");
+                Console.Write(listItem + " ");
             }
         }
     }
-} 
+}
