@@ -78,22 +78,30 @@ namespace CSLight
         static void RemoveEntry(Dictionary<string, string> entries)
         {
             Console.Write("Введите номер досье которое хотите удалить: ");
-            int entryIndex = Convert.ToInt32(Console.ReadLine());
+            bool gotNumber = int.TryParse(Console.ReadLine(), out int entryIndex);
 
-            int index = 1;
-            
-            foreach (var entry in entries)
+            if (gotNumber == true)
             {
-                if (entryIndex == index)
+                int index = 1;
+            
+                foreach (var entry in entries)
                 {
-                    entries.Remove(entry.Key);
-                    break;
-                }
+                    if (entryIndex == index)
+                    {
+                        entries.Remove(entry.Key);
+                        break;
+                    }
                 
-                index++;
+                    index++;
+                }
+
+                Console.WriteLine("Досье было удалено.");
             }
 
-            Console.WriteLine("Досье было удалено.");
+            else
+            {
+                Console.WriteLine("Был введен не номер.");
+            }
 
             ClearConsole();
         }
