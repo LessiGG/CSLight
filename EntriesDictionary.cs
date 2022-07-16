@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace CSLight
@@ -45,14 +45,20 @@ namespace CSLight
         {
             Console.Write("Введите фамилию имя отчество через пробел: ");
             string name = Console.ReadLine();
-            Console.WriteLine("ФИО записано.\n");
             
-            Console.Write("Введите должность: ");
-            string ocupation = Console.ReadLine();
-            Console.WriteLine("Должность записана.\n");
+            if (entries.ContainsKey(name))
+            {
+                Console.WriteLine("Такое имя уже есть.");
+            }
+            else
+            {
+                Console.Write("Введите должность: ");
+                string ocupation = Console.ReadLine();
+
+                entries.Add(name, ocupation);
+                Console.WriteLine("Досье записано.");
+            }
             
-            entries.Add(name, ocupation);
-            Console.WriteLine("Досье записано.");
             ClearConsole();
         }
 
