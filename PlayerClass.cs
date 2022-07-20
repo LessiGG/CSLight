@@ -6,7 +6,11 @@ namespace CSLight
     {
         static void Main(string[] args)
         {
-            Player player = new Player(100, 5.0f, 7.0f);
+            int playerHealth = 100;
+            float playerPositionX = 5.0f;
+            float playerPositionY = 7.0f;
+            
+            Player player = new Player(playerHealth, playerPositionX, playerPositionY);
             player.ShowInfo();
         }
     }
