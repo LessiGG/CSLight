@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace CSLight
 {
@@ -18,39 +18,15 @@ namespace CSLight
 
     class Player
     {
-        private int _positionX;
-        private int _positionY;
-        private char _playerSymbol;
-
-        public int PositionX
-        {
-            get
-            {
-                return _positionX;
-            }
-        }
-        
-        public int PositionY
-        {
-            get
-            {
-                return _positionY;
-            }
-        }
-        
-        public char PlayerSymbol
-        {
-            get
-            {
-                return _playerSymbol;
-            }
-        }
+        public int PositionX { get; }
+        public int PositionY { get; }
+        public char PlayerSymbol { get; }
         
         public Player(int positionX, int positionY, char playerSymbol)
         {
-            _positionX = positionX;
-            _positionY = positionY;
-            _playerSymbol = playerSymbol;
+            PositionX = positionX;
+            PositionY = positionY;
+            PlayerSymbol = playerSymbol;
         }
     }
 
@@ -62,4 +38,4 @@ namespace CSLight
             Console.WriteLine(player.PlayerSymbol);
         }
     }
-} 
+}
