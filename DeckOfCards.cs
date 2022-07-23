@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace CSLight
@@ -7,13 +7,12 @@ namespace CSLight
     {
         static void Main(string[] args)
         {
-            bool isPlaying = true;
             Deck deck = new Deck();
             deck.ShuffleDeck();
 
             Player player = new Player();
 
-            while (isPlaying)
+            while (player.IsPlaying)
             {
                 Console.WriteLine("[1] Вытянуть одну карту [2] Вытянуть несколько карт [3] Завершить игру и увидеть вытянутые карты [4] Выход");
                 string userInput = Console.ReadLine();
@@ -24,16 +23,13 @@ namespace CSLight
                         player.GetCard(deck);
                         break;
                     case "2":
-                        Console.WriteLine("Сколько карт вы хотите вытянуть?");
-                        int userCardsCount = Convert.ToInt32(Console.ReadLine());
-                        player.GetCard(deck, userCardsCount);
+                        player.GetMultipleCards(deck);
                         break;
                     case "3":
                         player.ShowCards();
-                        isPlaying = false;
                         break;
                     case "4":
-                        isPlaying = false;
+                        player.FinishTheGame();
                         break;
                     default:
                         Console.WriteLine("Неизвестная операция.");
@@ -117,6 +113,11 @@ namespace CSLight
                 (_deck[randomValue], _deck[deckCount]) = (_deck[deckCount], _deck[randomValue]);
             }
         }
+
+        public bool AreCardsLeft()
+        {
+            return _deck.Count > 0;
+        }
         
         public bool TryGetCard(out Card card)
         {
@@ -144,6 +145,13 @@ namespace CSLight
     class Player
     {
         private List<Card> _playerCards = new List<Card>(52);
+
+        public bool IsPlaying { get; private set; } = true;
+
+        public void FinishTheGame()
+        {
+            IsPlaying = false;
+        }
         
         public void GetCard(Deck deck)
         {
@@ -153,21 +161,24 @@ namespace CSLight
             }
             else
             {
-                Console.WriteLine("В колоде законились карты");
+                Console.WriteLine("В колоде закончились карты");
             }
         }
-        public void GetCard(Deck deck, int count)
+        public void GetMultipleCards(Deck deck)
         {
-            for (int i = 0; i < count; i++)
+            Console.WriteLine("Сколько карт вы хотите вытянуть?");
+            int.TryParse(Console.ReadLine(), out int result);
+            
+            if (deck.AreCardsLeft() == false)
+            {
+                Console.WriteLine("В колоде закончились карты");
+            }
+            
+            for (int i = 0; i < result; i++)
             {
                 if (deck.TryGetCard(out Card card))
                 {
                     _playerCards.Add(card);
-                }
-                else
-                {
-                    Console.WriteLine("В колоде законились карты");
-                    break;
                 }
             }
         }
@@ -180,6 +191,8 @@ namespace CSLight
             {
                 playerCard.ShowCard();
             }
+            
+            FinishTheGame();
         }    
     }
 }
