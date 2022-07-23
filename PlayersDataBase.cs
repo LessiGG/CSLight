@@ -97,7 +97,7 @@ namespace CSLight
             Console.WriteLine("Введите уникальный айди игрока");
             int.TryParse(Console.ReadLine(), out int id);
             
-            if (CheckForUniqueId(id) == true)
+            if (IsIdUnique(id) == true)
             {
                 Console.WriteLine("Введите никнейм игрока");
                 string nickname = Console.ReadLine();
@@ -107,7 +107,7 @@ namespace CSLight
             }
         }
 
-        public bool CheckForUniqueId(int id)
+        public bool IsIdUnique(int id)
         {
             foreach (var player in _players)
             {
