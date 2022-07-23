@@ -158,7 +158,7 @@ namespace CSLight
         }
         private bool TryGetPlayer(out Player player)
         {
-            int inputId = Convert.ToInt32(Console.ReadLine());
+            int.TryParse(Console.ReadLine(), out int inputId);
 
             foreach (var gamer in _players)
             {
