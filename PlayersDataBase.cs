@@ -97,11 +97,28 @@ namespace CSLight
             Console.WriteLine("Введите уникальный айди игрока");
             int.TryParse(Console.ReadLine(), out int id);
             
-            Console.WriteLine("Введите никнейм игрока");
-            string nickname = Console.ReadLine();
+            if (CheckForUniqueId(id) == true)
+            {
+                Console.WriteLine("Введите никнейм игрока");
+                string nickname = Console.ReadLine();
                         
-            Player player = new Player(id, nickname);
-            _players.Add(player);
+                Player player = new Player(id, nickname);
+                _players.Add(player);
+            }
+        }
+
+        public bool CheckForUniqueId(int id)
+        {
+            foreach (var player in _players)
+            {
+                if (player.Id == id)
+                {
+                    Console.WriteLine("Такой Id уже существует.");
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         public void RemovePlayer()
