@@ -96,7 +96,7 @@ namespace CSLight
     {
         public Player()
         {
-            MoneyCount = 1000;
+            MoneyCount = 100;
         }
         
         public void BuyProduct(Seller seller)
@@ -110,16 +110,16 @@ namespace CSLight
                 return;
             }
 
-            if (id > seller.GetProductsCount() - 1)
+            if (id > seller.ProductsCount - 1)
             {
                 Console.WriteLine($"Нет предмета под номером {id}.");
                 return;
             }
-            
+
             if (HaveEnoughMoney(id, seller))
             {
                 Product productToBuy = seller.SellProduct(id);
-                
+
                 if (Products.Any(x => x.Name.Contains(productToBuy.Name)))
                 {
                     Products[productToBuy.Id - 1].IncreaseCount();
@@ -128,26 +128,27 @@ namespace CSLight
                 {
                     Products.Add(productToBuy);
                 }
-                
+
                 MoneyCount -= productToBuy.Price;
-                    
+
                 Console.WriteLine($"{productToBuy.Name} приобретен(о).");
+            }
+            else
+            {
+                Console.WriteLine("Недостаточно  денег.");
             }
         }
 
         private bool HaveEnoughMoney(int id, Seller seller)
         {
-            if (MoneyCount > seller.GetProduct(id).Price)
-            {
-                return true;
-            }
-
-            return false;
+            return MoneyCount > seller.GetProduct(id).Price;
         }
     }
 
     class Seller : Trader
     {
+        public int ProductsCount => Products.Count;
+        
         public Seller()
         {
             Products.Add(new Product("Колбаса", 40, 8));
@@ -156,21 +157,7 @@ namespace CSLight
             Products.Add(new Product("Зелень", 15, 5));
         }
 
-        public int GetProductsCount()
-        {
-            return Products.Count;
-        }
-
-        public Product GetProduct(int id)
-        {
-            if (id < Products.Count)
-            {
-                return Products[id];
-            }
-
-            Console.WriteLine($"Продукта с id {id} не найдено.");
-            return null;
-        }
+        public Product GetProduct(int id) => Products[id];
         
         public Product SellProduct(int id)
         {
