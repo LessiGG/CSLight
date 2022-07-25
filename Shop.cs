@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,10 +13,10 @@ namespace CSLight
             bool isWorking = true;
             
             Console.WriteLine("Добро пожаловать в магазин");
-            Console.WriteLine("[1] Показать покупки. [2] Показать товары. [3] Купить. [4] Выйти из магазина");
 
             while (isWorking)
             {
+                Console.WriteLine("[1] Показать покупки. [2] Показать товары. [3] Купить. [4] Выйти из магазина");
                 string userInput = Console.ReadLine();
 
                 switch (userInput)
@@ -33,6 +33,9 @@ namespace CSLight
                     case "4":
                         isWorking = false;
                         break;
+                    default:
+                        Console.WriteLine("Неизвестная команда.");
+                        break;
                 }
             }
         }
@@ -40,9 +43,9 @@ namespace CSLight
 
     class Product
     {
-        public int Id { get; }
-        public string Name { get; }
-        public int Price { get; }
+        public int Id { get; private set; }
+        public string Name { get; private set;  }
+        public int Price { get; private set; }
         public int Count { get; private set; }
 
         public Product(string name, int price, int count)
@@ -99,16 +102,21 @@ namespace CSLight
         public void BuyProduct(Seller seller)
         {
             Console.WriteLine("Что вы хотите купить? (Введите номер товара): ");
+            bool isNumber = int.TryParse(Console.ReadLine(), out int id);
             
-            int id = GetNumber();
+            if (isNumber == false)
+            {
+                Console.WriteLine("Введите число.");
+                return;
+            }
 
-            if (id > seller.GetProducts().Count - 1)
+            if (id > seller.GetProductsCount() - 1)
             {
                 Console.WriteLine($"Нет предмета под номером {id}.");
                 return;
             }
             
-            if (CanBuy(id, seller))
+            if (HaveEnoughMoney(id, seller))
             {
                 Product productToBuy = seller.SellProduct(id);
                 
@@ -127,7 +135,7 @@ namespace CSLight
             }
         }
 
-        private bool CanBuy(int id, Seller seller)
+        private bool HaveEnoughMoney(int id, Seller seller)
         {
             if (MoneyCount > seller.GetProduct(id).Price)
             {
@@ -135,20 +143,6 @@ namespace CSLight
             }
 
             return false;
-        }
-        
-        private int GetNumber()
-        {
-            bool isNumber = int.TryParse(Console.ReadLine(), out int number);
-
-            if (isNumber == false)
-            {
-                Console.WriteLine("Введите число");
-                number = 0;
-                return number;
-            }
-
-            return number;
         }
     }
 
@@ -162,6 +156,11 @@ namespace CSLight
             Products.Add(new Product("Зелень", 15, 5));
         }
 
+        public int GetProductsCount()
+        {
+            return Products.Count;
+        }
+
         public Product GetProduct(int id)
         {
             if (id < Products.Count)
@@ -171,18 +170,6 @@ namespace CSLight
 
             Console.WriteLine($"Продукта с id {id} не найдено.");
             return null;
-        }
-        
-        public List<Product> GetProducts()
-        {
-            List<Product> products = new List<Product>();
-
-            for (int i = 0; i < Products.Count; i++)
-            {
-                products.Add(Products[i]);
-            }
-            
-            return products;
         }
         
         public Product SellProduct(int id)
