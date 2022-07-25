@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace CSLight
@@ -96,21 +96,6 @@ namespace CSLight
                 }
             }
 
-            private bool TryGetBook(out Book book)
-            {
-                int userInput = GetUserInt();
-
-                if (userInput > 0 && userInput - 1 < _books.Count)
-                {
-                    book = _books[userInput - 1];
-                    return true;
-                }
-
-                book = null;
-                Console.WriteLine($"Книги под номером {userInput} не существует");
-                return false;
-            }
-
             public void ShowAllBooks()
             {
                 Console.WriteLine("Список книг: ");
@@ -119,24 +104,6 @@ namespace CSLight
                 {
                     Console.WriteLine($"Книга - {book.Title}. Автор - {book.Author}. Год выпуска - {book.ReleaseYear}");
                 }
-            }
-
-            private void ShowFoundBooks()
-            {
-                if (_foundBooks.Count > 0)
-                {
-                    Console.WriteLine("Книги по вашему запросу: ");
-                    foreach (var foundBook in _foundBooks)
-                    {
-                        Console.WriteLine($"Книга - {foundBook.Title}. Автор - {foundBook.Author}. Год выпуска - {foundBook.ReleaseYear}");           
-                    }                
-                }
-                else
-                {
-                    Console.WriteLine($"В библиотеке нет таких книг");
-                }
-                
-                _foundBooks.Clear();
             }
 
             public void FindBook()
@@ -156,6 +123,39 @@ namespace CSLight
                         FindByYear();
                         break;
                 }
+            }
+
+            private bool TryGetBook(out Book book)
+            {
+                int userInput = GetUserInt();
+
+                if (userInput > 0 && userInput - 1 < _books.Count)
+                {
+                    book = _books[userInput - 1];
+                    return true;
+                }
+
+                book = null;
+                Console.WriteLine($"Книги под номером {userInput} не существует");
+                return false;
+            }
+
+            private void ShowFoundBooks()
+            {
+                if (_foundBooks.Count > 0)
+                {
+                    Console.WriteLine("Книги по вашему запросу: ");
+                    foreach (var foundBook in _foundBooks)
+                    {
+                        Console.WriteLine($"Книга - {foundBook.Title}. Автор - {foundBook.Author}. Год выпуска - {foundBook.ReleaseYear}");           
+                    }                
+                }
+                else
+                {
+                    Console.WriteLine($"В библиотеке нет таких книг");
+                }
+                
+                _foundBooks.Clear();
             }
 
             private void FindByYear()
