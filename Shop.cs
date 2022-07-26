@@ -130,7 +130,7 @@ namespace CSLight
             {
                 Product productToBuy = seller.SellProduct(id);
 
-                if (Cells.Any(x => x.Product.Name.Contains(productToBuy.Name)))
+                if (Cells.Any(cell => cell.Product.Name.Contains(productToBuy.Name)))
                 {
                     Cells[productToBuy.Id - 1].IncreaseCount();
                 }
