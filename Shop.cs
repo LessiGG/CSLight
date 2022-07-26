@@ -41,48 +41,58 @@ namespace CSLight
         }
     }
 
+    class Cell
+    {
+        public Product Product { get; private set; }
+        public int Count { get; private set; }
+
+        public Cell(Product product, int count)
+        {
+            Product = product;
+            Count = count;
+        }
+
+        public void IncreaseCount()
+        {
+            Count++;
+        }
+        
+        public void DecreaseCount()
+        {
+            Count--;
+        }
+    }
+
     class Product
     {
         public int Id { get; private set; }
         public string Name { get; private set;  }
         public int Price { get; private set; }
-        public int Count { get; private set; }
 
-        public Product(string name, int price, int count)
+        public Product(string name, int price)
         {
             Id++;
             Name = name;
             Price = price;
-            Count = count;
-        }
-
-        public void DecreaseCount()
-        {
-            Count--;
-        }
-        
-        public void IncreaseCount()
-        {
-            Count++;
         }
     }
 
     class Trader
     {
-        protected List<Product> Products = new List<Product>();
+        protected List<Cell> Cells = new List<Cell>();
         protected int MoneyCount;
 
         public virtual void ShowProducts()
         {
             Console.WriteLine($"Ваши деньги: {MoneyCount}");
 
-            if (Products.Count > 0)
+            if (Cells.Count > 0)
             {
                 Console.WriteLine("Ваш список товаров: ");
             
-                foreach (var product in Products)
+                foreach (var cell in Cells)
                 {
-                    Console.WriteLine($"Товар {product.Name}, количество {product.Count}.");
+                    Console.WriteLine($"Товар {cell.Product.Name}, количество {cell.Count}.");
                 }
             }
             else
@@ -110,23 +120,23 @@ namespace CSLight
                 return;
             }
 
-            if (id > seller.ProductsCount - 1)
+            if (id > seller.ProductsCount - 1 && id < 0)
             {
                 Console.WriteLine($"Нет предмета под номером {id}.");
                 return;
             }
 
-            if (HaveEnoughMoney(id, seller))
+            if (MoneyCount > seller.GetCell(id).Product.Price)
             {
                 Product productToBuy = seller.SellProduct(id);
 
-                if (Products.Any(x => x.Name.Contains(productToBuy.Name)))
+                if (Cells.Any(x => x.Product.Name.Contains(productToBuy.Name)))
                 {
-                    Products[productToBuy.Id - 1].IncreaseCount();
+                    Cells[productToBuy.Id - 1].IncreaseCount();
                 }
                 else
                 {
-                    Products.Add(productToBuy);
+                    Cells.Add(new Cell(productToBuy, 1));
                 }
 
                 MoneyCount -= productToBuy.Price;
@@ -135,50 +145,45 @@ namespace CSLight
             }
             else
             {
-                Console.WriteLine("Недостаточно  денег.");
+                Console.WriteLine("Недостаточно денег.");
             }
-        }
-
-        private bool HaveEnoughMoney(int id, Seller seller)
-        {
-            return MoneyCount > seller.GetProduct(id).Price;
         }
     }
 
     class Seller : Trader
     {
-        public int ProductsCount => Products.Count;
+        public int ProductsCount => Cells.Count;
         
         public Seller()
         {
-            Products.Add(new Product("Колбаса", 40, 8));
-            Products.Add(new Product("Сыр", 30, 6));
-            Products.Add(new Product("Сметана", 50, 2));
-            Products.Add(new Product("Зелень", 15, 5));
+            Cells.Add(new Cell(new Product("Колбаса", 40), 8));
+            Cells.Add(new Cell(new Product("Сыр", 30), 6));
+            Cells.Add(new Cell(new Product("Сметана", 50), 2));
+            Cells.Add(new Cell(new Product("Зелень", 15), 5));
         }
 
-        public Product GetProduct(int id) => Products[id];
+        public Cell GetCell(int id) => Cells[id];
         
         public Product SellProduct(int id)
         {
-            Product product = GetProduct(id);
+            Cell cell = GetCell(id);
             
-            if (product.Count <= 0)
+            if (cell.Count <= 0)
             {
                 Console.WriteLine("Продукта нет на складе.");
             }
-            else if (product.Count == 1)
+            else if (cell.Count == 1)
             {
-                Products.Remove(product);
+                Cells.Remove(cell);
             }
             else
             {
-                product.DecreaseCount();
+                cell.DecreaseCount();
             }
             
-            MoneyCount += product.Price;
+            MoneyCount += cell.Product.Price;
 
-            Product productToSell = new Product(product.Name, product.Price, 1);
+            Product productToSell = new Product(cell.Product.Name, cell.Product.Price);
             return productToSell;
         }
 
@@ -187,9 +192,9 @@ namespace CSLight
             Console.WriteLine($"Баланс магазина: {MoneyCount}");
             Console.WriteLine("Список товаров магазина: ");
 
-            for (var i = 0; i < Products.Count; i++)
+            for (var i = 0; i < Cells.Count; i++)
             {
-                Console.WriteLine($"{i}) Товар {Products[i].Name}, количество {Products[i].Count}, стоимость {Products[i].Price}.");
+                Console.WriteLine($"{i}) Товар {Cells[i].Product.Name}, количество {Cells[i].Count}, стоимость {Cells[i].Product.Price}.");
             }
         }
     }
