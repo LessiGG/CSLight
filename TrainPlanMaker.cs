@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace CSLight
@@ -60,6 +60,13 @@ namespace CSLight
                 PressToContinue();
             }
         }
+        
+        public void UpdateDirectionsView()
+        {
+            Console.SetCursorPosition(0, 0);
+            ShowDirecions();
+            Console.SetCursorPosition(0, 10);
+        }
 
         private void PressToContinue()
         {
@@ -84,13 +91,6 @@ namespace CSLight
             {
                 Console.WriteLine("Никаких отправлений пока не назначено.");
             }
-        }
-        
-        public void UpdateDirectionsView()
-        {
-            Console.SetCursorPosition(0, 0);
-            ShowDirecions();
-            Console.SetCursorPosition(0, 10);
         }
 
         private bool TryCreateDirection()
