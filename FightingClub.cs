@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace CSLight
@@ -67,48 +67,43 @@ namespace CSLight
             ShowFighters();
             Console.WriteLine("Выберите первого бойца: ");
             
-            if (TryChooseFighter(out _firstFighter) == false)
+            if (TryChooseFighter(out _firstFighter) != false)
             {
-                return false;
+                Console.WriteLine("Выберите второго бойца: ");
+            
+                if (TryChooseFighter(out _secondFigther) != false)
+                {
+                    if (_firstFighter != _secondFigther)
+                    {
+                        Console.WriteLine("Выбор сделан, битва началась!\n");
+                        return true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Выберите разных воинов!");
+                    }
+                }
             }
             
-            Console.WriteLine("Выберите второго бойца: ");
-            
-            if (TryChooseFighter(out _secondFigther) == false)
-            {
-                return false;
-            }
-            
-            if (_firstFighter == null || _secondFigther == null)
-            {
-                return false;
-            }
-            
-            if (_firstFighter == _secondFigther)
-            {
-                Console.WriteLine("Выберите разных воинов!");
-                return false;
-            }
-            
-            Console.WriteLine("Выбор сделан, битва началась!\n");
-            return true;
+            return false;
         }
 
         private void ShowWinner()
         {
             Console.WriteLine("Бой окончен. Итог:");
             
-            if (_firstFighter.Health <= 0 && _secondFigther.Health <=0)
-            {
-                Console.WriteLine("Оба бойца в нокауте.");
-            }
-            else if (_firstFighter.Health <= 0)
+            
+            if (_firstFighter.Health <= 0)
             {
                 Console.WriteLine($"Победил {_secondFigther.Name}");
             }
             else if (_secondFigther.Health <= 0)
             {
                 Console.WriteLine($"Победил {_firstFighter.Name}");
+            }
+            else
+            {
+                Console.WriteLine("Оба бойца в нокауте.");
             }
         }
 
