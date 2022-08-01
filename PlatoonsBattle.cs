@@ -167,11 +167,11 @@ namespace CSLight
 
             if (randomValue > specialChance)
             {
-                SpecialAttack();
+                PerformSpecialAttack();
             }
         }
 
-        protected virtual void SpecialAttack() { }
+        protected virtual void PerformSpecialAttack() { }
     }
 
     class BlackSmith : Soldier
@@ -180,7 +180,7 @@ namespace CSLight
 
         public BlackSmith(string name, int health, int damage) : base(name, health, damage) { }
 
-        protected override void SpecialAttack()
+        protected override void PerformSpecialAttack()
         {
             Console.WriteLine($"Кузнец заточил мечи. Атака увеличена на {_sharpenSwords} единиц.");
             Damage += _sharpenSwords;
@@ -193,7 +193,7 @@ namespace CSLight
 
         public Doctor(string name, int health, int damage) : base(name, health, damage) { }
 
-        protected override void SpecialAttack()
+        protected override void PerformSpecialAttack()
         {
             Console.WriteLine($"Доктор полечился на {_healingPower} единиц.");
             Health += _healingPower;
@@ -209,7 +209,7 @@ namespace CSLight
             _maxHealth = health; 
         }
 
-        protected override void SpecialAttack()
+        protected override void PerformSpecialAttack()
         {
             Console.WriteLine("Камикадзе подрывает себя.");
             Damage *= 5;
@@ -226,7 +226,7 @@ namespace CSLight
             _startDamage = damage;
         }
 
-        protected override void SpecialAttack()
+        protected override void PerformSpecialAttack()
         {
             Random random = new Random();
         
