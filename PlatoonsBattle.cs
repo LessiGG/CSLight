@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace CSLight
@@ -8,8 +8,10 @@ namespace CSLight
         static void Main(string[] args)
         {
             BattleField battleField = new BattleField();
+            
             battleField.Battle();
             battleField.ShowBattleResults();
+            
             Console.ReadLine();
         }
     }
@@ -79,7 +81,7 @@ namespace CSLight
     class Platoon
     {
         private readonly List<Soldier> _soldiers = new List<Soldier>();
-        private readonly Random _random = new Random();
+        private static readonly Random Random = new Random();
 
         public Platoon()
         {
@@ -101,7 +103,7 @@ namespace CSLight
 
         public Soldier GetRandomSoldier()
         {
-            int soldierIndex = _random.Next(_soldiers.Count);
+            int soldierIndex = Random.Next(_soldiers.Count);
             return _soldiers[soldierIndex];
         }
 
@@ -113,7 +115,7 @@ namespace CSLight
         private Soldier GetTypedSoldier()
         {
             int lastPositionSoldier = 4;
-            int soldierInPlatoon = _random.Next(lastPositionSoldier);
+            int soldierInPlatoon = Random.Next(lastPositionSoldier);
 
             switch (soldierInPlatoon)
             {
