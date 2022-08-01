@@ -36,8 +36,8 @@ namespace CSLight
                 _leftSideSoldier = _leftSidePlatoon.GetRandomSoldier();
                 _rightSideSoldier = _rightSidePlatoon.GetRandomSoldier();
                 
-                _leftSideSoldier.UseSpecial();
-                _rightSideSoldier.UseSpecial();
+                _leftSideSoldier.CalculateSpecialAttack();
+                _rightSideSoldier.CalculateSpecialAttack();
                 
                 _leftSideSoldier.TakeDamage(_rightSideSoldier.Damage);
                 _rightSideSoldier.TakeDamage(_leftSideSoldier.Damage);
@@ -69,11 +69,11 @@ namespace CSLight
         {
             if (_leftSideSoldier.Health <= 0)
             {
-                _leftSidePlatoon.RemoveSoldier(_leftSideSoldier);
+                _leftSidePlatoon.Remove(_leftSideSoldier);
             }
             else if (_rightSideSoldier.Health <= 0)
             {
-                _rightSidePlatoon.RemoveSoldier(_rightSideSoldier);
+                _rightSidePlatoon.Remove(_rightSideSoldier);
             }
         }
     }
@@ -81,11 +81,12 @@ namespace CSLight
     class Platoon
     {
         private readonly List<Soldier> _soldiers = new List<Soldier>();
-        private static readonly Random Random = new Random();
+        private static readonly Random _random = new Random();
 
         public Platoon()
         {
-            CreatePlatoon(6);
+            int soldiersCount = 6;
+            CreatePlatoon(soldiersCount);
         }
 
         public void ShowPlatoon()
@@ -103,11 +104,11 @@ namespace CSLight
 
         public Soldier GetRandomSoldier()
         {
-            int soldierIndex = Random.Next(_soldiers.Count);
+            int soldierIndex = _random.Next(_soldiers.Count);
             return _soldiers[soldierIndex];
         }
 
-        public void RemoveSoldier(Soldier soldier)
+        public void Remove(Soldier soldier)
         {
             _soldiers.Remove(soldier);
         }
@@ -115,7 +116,7 @@ namespace CSLight
         private Soldier GetTypedSoldier()
         {
             int lastPositionSoldier = 4;
-            int soldierInPlatoon = Random.Next(lastPositionSoldier);
+            int soldierInPlatoon = _random.Next(lastPositionSoldier);
 
             switch (soldierInPlatoon)
             {
@@ -158,7 +159,7 @@ namespace CSLight
             Health -= damage;
         }
 
-        public void UseSpecial()
+        public void CalculateSpecialAttack()
         {
             int allPercents = 100;
             int specialChance = 50;
