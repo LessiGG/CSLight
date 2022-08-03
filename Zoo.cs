@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace CSLight
@@ -39,6 +39,7 @@ namespace CSLight
     class Aviary
     {
         private static readonly Random _random = new Random();
+        
         private readonly List<Animal> _animals;
         private readonly Animal[] _animalsTypes =
         {
@@ -47,14 +48,6 @@ namespace CSLight
             new Animal("Курица", "Ку-ка-ре-ку"),
             new Animal("Корова", "Му")
         };
-        
-        private int GetCapacity()
-        {
-            int minCapacity = 3;
-            int maxCapacity = 10;
-
-            return _random.Next(minCapacity, maxCapacity);
-        }
 
         public Aviary()
         {
@@ -75,6 +68,14 @@ namespace CSLight
             {
                 Console.WriteLine($"Тип: {animal.Type}, вы слышите звук <<{animal.Sound}>>, пол животного {animal.Gender}");
             }
+        }
+        
+        private int GetCapacity()
+        {
+            int minCapacity = 3;
+            int maxCapacity = 10;
+
+            return _random.Next(minCapacity, maxCapacity);
         }
     }
 
