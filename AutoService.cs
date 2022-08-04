@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace CSLight
@@ -71,25 +71,29 @@ namespace CSLight
                 Console.WriteLine("Введите число!");
                 return false;
             }
-            
-            if (detailId > 0 && detailId - 1 <= _warehouse.GetWarehouseDetails().Count && client.BrokenDetail.Name == _warehouse.GetWarehouseDetails()[detailId - 1].Detail.Name)
-            {
-                int detailToChange = detailId - 1;
 
-                if (_warehouse.GetWarehouseDetails()[detailToChange].Amount > 1)
+            if (detailId > 0 && detailId - 1 <= _warehouse.GetDetailsCount())
+            {
+                if (client.BrokenDetail.Name == _warehouse.GetDetailCell(detailId - 1).Detail.Name)
                 {
-                    _warehouse.GetWarehouseDetails()[detailToChange].ReduceAmount();
-                }
-                else
-                {
-                    _warehouse.GetWarehouseDetails().RemoveAt(detailToChange);
+                    int detailToChange = detailId - 1;
+
+                    if (_warehouse.GetDetailAmount(detailToChange) > 1)
+                    {
+                        _warehouse.GetDetailCell(detailToChange).ReduceAmount();
+                    }
+                    else
+                    {
+                        _warehouse.GetDetails().RemoveAt(detailToChange);
+                    }
+
+                    int repairPrice = GetRepairPrice(client);
+                    Console.WriteLine($"Автомобиль отремонтирован, сервис заработал {repairPrice}");
+                    _moneyCount += repairPrice;
+                    
+                    return true;
                 }
                 
-                return true;
-            }
-            
-            if (detailId > 0 && detailId - 1 <= _warehouse.GetWarehouseDetails().Count && client.BrokenDetail.Name != _warehouse.GetWarehouseDetails()[detailId - 1].Detail.Name)
-            {
                 Console.WriteLine("Механик ошибся, сервис должен выплатить штраф!");
                 AssignPenalty();
                 return false;
@@ -103,14 +107,15 @@ namespace CSLight
         {
             int repairPrice = 0;
 
-            for (int i = 0; i < _warehouse.GetWarehouseDetails().Count; i++)
+            for (int i = 0; i < _warehouse.GetDetailsCount(); i++)
             {
-                if (client.BrokenDetail.Name == _warehouse.GetWarehouseDetails()[i].Detail.Name)
+                if (client.BrokenDetail.Name == _warehouse.GetDetailCell(i).Detail.Name)
                 {
-                    repairPrice += _warehouse.GetWarehouseDetails()[i].Detail.Price + _repairCost;
+                    repairPrice += _warehouse.GetDetailCell(i).Detail.Price + _repairCost;
                     break;
                 }
-            }            
+            }
+            
             return repairPrice;
         }                
 
@@ -130,7 +135,7 @@ namespace CSLight
             switch (userInput)
             {
                 case "1":
-                    RepairCar(client);
+                    TryRepairCar(client);
                     break;
                 case "2":
                     AssignPenalty();
@@ -140,16 +145,6 @@ namespace CSLight
                     break;
             }
         }
-        
-        private void RepairCar(Client client)
-        {
-            if (TryRepairCar(client))
-            {
-                int repairPrice = GetRepairPrice(client);
-                Console.WriteLine($"Автомобиль отремонтирован, сервис заработал {repairPrice}");
-                _moneyCount += repairPrice;
-            }
-        }
 
         private void AssignPenalty()
         {
@@ -157,7 +152,6 @@ namespace CSLight
             _moneyCount -= _repairPenalty;
         }
     }
-
 
     class Client
     {
@@ -231,17 +225,26 @@ namespace CSLight
             {
                 Console.WriteLine($"{i + 1}) {_details[i].Detail.Name} Цена: {_details[i].Detail.Price} Количество: {_details[i].Amount}");
             }
-        }        
+        }
 
-        public List<WarehouseCell> GetWarehouseDetails()
+        public int GetDetailAmount(int detailId)
         {
-            List<WarehouseCell> warehouseDetails = new List<WarehouseCell>();
+            return _details[detailId].Amount;
+        }
 
-            foreach (var detail in _details)
-            {
-                warehouseDetails.Add(detail);
-            }
-            return warehouseDetails;
+        public int GetDetailsCount()
+        {
+            return _details.Count;
+        }
+
+        public WarehouseCell GetDetailCell(int detailId)
+        {
+            return _details[detailId];
+        }
+
+        public List<WarehouseCell> GetDetails()
+        {
+            return _details;
         }
 
         private void FillWarehouse()
