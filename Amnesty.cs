@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -20,17 +20,17 @@ namespace CSLight
     class Citizen
     {
         public string Name { get; private set; }
-        public bool Guilty { get; private set; }
+        public bool IsGuilty { get; private set; }
 
         public Citizen(string name)
         {
             Name = name;
-            Guilty = false;
+            IsGuilty = false;
         }
 
         public void BecomeGuilty()
         {
-            Guilty = true;
+            IsGuilty = true;
         }
     }
 
@@ -61,8 +61,8 @@ namespace CSLight
         public void RemoveGuiltyCitizens()
         {
             var citizens = (from Citizen citizen in _citizens
-                                      where citizen.Guilty == false
-                                      select citizen).ToList();
+                where citizen.IsGuilty == false
+                select citizen).ToList();
             _citizens = citizens;
         }
 
