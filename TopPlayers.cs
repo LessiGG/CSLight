@@ -20,10 +20,10 @@ namespace CSLight
                 switch (userInput)
                 {
                     case "1":
-                        playersManager.SeekByLevel();
+                        playersManager.SortByLevel();
                         break;
                     case "2":
-                        playersManager.SeekByStrength();
+                        playersManager.SortByStrength();
                         break;
                     case "3":
                         isWorking = false;
@@ -70,13 +70,13 @@ namespace CSLight
             _players.Add(new Player("Максим", 50, 78654));
         }
 
-        public void SeekByLevel()
+        public void SortByLevel()
         {
             var sortedByLevel = _players.OrderByDescending(player => player.Level).Take(_topPlayersCount).ToList();
             DisplayPlayers(sortedByLevel);
         }
 
-        public void SeekByStrength()
+        public void SortByStrength()
         {
             var sortedByStrength = _players.OrderByDescending(player => player.Strength).Take(_topPlayersCount).ToList();
             DisplayPlayers(sortedByStrength);
