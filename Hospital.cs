@@ -25,7 +25,7 @@ namespace CSLight
                         hospital.SortByAge();
                         break;
                     case "3":
-                        hospital.GetPatientByIllness();
+                        hospital.ShowPatientsByIllness();
                         break;
                     case "4":
                         isWorking = false;
@@ -82,7 +82,7 @@ namespace CSLight
             DisplayPatients(sortedPatients);
         }
 
-        public void GetPatientByIllness()
+        public void ShowPatientsByIllness()
         {
             string illness = Console.ReadLine();
             
