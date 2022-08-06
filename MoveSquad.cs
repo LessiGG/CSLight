@@ -9,9 +9,6 @@ namespace CSLight
         static void Main(string[] args)
         {
             Squad squad = new Squad();
-            
-            squad.Show();
-            squad.TransferSoldiers();
             squad.Show();
         }
     }
@@ -23,6 +20,11 @@ namespace CSLight
         public Soldier(string surname)
         {
             Surname = surname;
+        }
+        
+        public void ShowInfo()
+        {
+            Console.WriteLine($"Фамилия солдата: {Surname}");
         }
     }
 
@@ -39,30 +41,36 @@ namespace CSLight
             _soldiersA.Add(new Soldier("Абрикосов"));
             _soldiersA.Add(new Soldier("Пушкин"));
         }
-
+        
         public void Show()
         {
-            Console.WriteLine("Отряд 1:");
+            Console.WriteLine("Первый отряд:");
+            ShowSoldiers(_soldiersA);
+            Console.WriteLine("Второй отряд:");
+            ShowSoldiers(_soldiersB);
             
-            foreach (var soldier in _soldiersA)
-            {
-                Console.WriteLine(soldier.Surname);
-            }
+            TransferSoldiers();
             
-            Console.WriteLine("Отряд 2:");
-            
-            foreach (var soldier in _soldiersB)
-            {
-                Console.WriteLine(soldier.Surname);
-            }
+            Console.WriteLine("Второй отряд после перевода:");
+            ShowSoldiers(_soldiersB);
+            Console.WriteLine("Остатки первого отряда после перевода");
+            ShowSoldiers(_soldiersA);
         }
 
-        public void TransferSoldiers()
+        private void TransferSoldiers()
         {
             var soldiers = _soldiersA.Where(soldier => soldier.Surname.StartsWith("Б")).ToList();
             
             _soldiersB = _soldiersB.Union(soldiers).ToList();
             _soldiersA = _soldiersA.Except(soldiers).ToList();
+        }
+        
+        private void ShowSoldiers(List<Soldier> soldiers)
+        {
+            foreach (var soldier in soldiers)
+            {
+                soldier.ShowInfo();
+            }
         }
     }
 }
