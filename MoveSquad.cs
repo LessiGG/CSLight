@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,9 +10,9 @@ namespace CSLight
         {
             Squad squad = new Squad();
             
-            squad.ShowSquad();
-            squad.ChangeSquad();
-            squad.ShowSquad();
+            squad.Show();
+            squad.TransferSoldiers();
+            squad.Show();
         }
     }
 
@@ -28,41 +28,41 @@ namespace CSLight
 
     class Squad
     {
-        private List<Soldier> _squadA = new List<Soldier>();
-        private List<Soldier> _squadB = new List<Soldier>();
+        private List<Soldier> _soldiersA = new List<Soldier>();
+        private List<Soldier> _soldiersB = new List<Soldier>();
 
         public Squad()
         {
-            _squadA.Add(new Soldier("Буханкин"));
-            _squadA.Add(new Soldier("Баранканкин"));
-            _squadA.Add(new Soldier("Бубликов"));
-            _squadA.Add(new Soldier("Абрикосов"));
-            _squadA.Add(new Soldier("Пушкин"));
+            _soldiersA.Add(new Soldier("Буханкин"));
+            _soldiersA.Add(new Soldier("Баранканкин"));
+            _soldiersA.Add(new Soldier("Бубликов"));
+            _soldiersA.Add(new Soldier("Абрикосов"));
+            _soldiersA.Add(new Soldier("Пушкин"));
         }
 
-        public void ShowSquad()
+        public void Show()
         {
             Console.WriteLine("Отряд 1:");
             
-            foreach (var soldier in _squadA)
+            foreach (var soldier in _soldiersA)
             {
                 Console.WriteLine(soldier.Surname);
             }
             
             Console.WriteLine("Отряд 2:");
             
-            foreach (var soldier in _squadB)
+            foreach (var soldier in _soldiersB)
             {
                 Console.WriteLine(soldier.Surname);
             }
         }
 
-        public void ChangeSquad()
+        public void TransferSoldiers()
         {
-            var soldiers = _squadA.Where(soldier => soldier.Surname.StartsWith("Б")).ToList();
+            var soldiers = _soldiersA.Where(soldier => soldier.Surname.StartsWith("Б")).ToList();
             
-            _squadB = _squadB.Union(soldiers).ToList();
-            _squadA = _squadA.Except(soldiers).ToList();
+            _soldiersB = _soldiersB.Union(soldiers).ToList();
+            _soldiersA = _soldiersA.Except(soldiers).ToList();
         }
     }
 }
